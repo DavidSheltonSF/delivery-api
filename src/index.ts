@@ -4,6 +4,7 @@ import bodyParser from "body-parser";
 import cors from "cors";
 import compression from "compression";
 import http from "http"
+import mongoConnection from "db/mongoConnection";
 
 const app = express();
 const port = 8080;
@@ -19,5 +20,7 @@ app.use(bodyParser.json())
 const server = http.createServer(app);
 
 server.listen(port, () => {
-  console.log(`Server listening on port https://localhost:${port}`)
-})
+  console.log(`Server listening on port https://localhost:${port}`);
+});
+
+mongoConnection()
