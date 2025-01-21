@@ -5,7 +5,11 @@ const UserSchema = new mongoose.Schema({
   email: { type: String, required: true },
   cpf: { type: String, required: true },
   phone: {type: String, required: true},
-  role: {type: String, required: true},
+  role: {
+    type: String, 
+    required: true,
+    enum: ['admin', 'costumer', 'restaurant owner', 'driver']
+  },
   addresses: [{
     street: { type: String, required: true },
     city: { type: String, required: true },
@@ -25,7 +29,7 @@ const UserSchema = new mongoose.Schema({
     salt: { type: String, select: false },
     sessionToken: { type: String, select: false },
   },
-})
+}, {timestamps: true})
 
 const UserModel = mongoose.model("UsersTest", UserSchema);
 
