@@ -1,11 +1,11 @@
 import mongoose from "mongoose";
-import mongoC from "./mongoConnection"
 
 const UserSchema = new mongoose.Schema({
   username: { type: String, required: true },
   email: { type: String, required: true },
   cpf: { type: String, required: true },
   phone: {type: String, required: true},
+  role: {type: String, required: true},
   addresses: [{
     street: { type: String, required: true },
     city: { type: String, required: true },
@@ -40,6 +40,4 @@ export const createUser = (values: Record<string, any>) => new UserModel(values)
 export const deleteUserById = (id: string) => UserModel.findByIdAndDelete(id);
 export const updateUserById = (id: String, values: Record<string, any>) => UserModel.
  findByIdAndUpdate(id, values);
-
-
-console.log(process.env.MONGO_URI)
+export const deleteAllUsers = () => UserModel.deleteMany()
