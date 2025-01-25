@@ -3,18 +3,18 @@ import mongoose from 'mongoose';
 const RestaurantSchema = new mongoose.Schema({
   name: { type: String, required: true },
   cnpj: { type: String, required: true },
+  phone: { type: String },
   category: {type: [String], required: true}, // [Japanese, sushibar] or [Brasilian, backery]
   isOpen: { type: Boolean, default: true },
   rating: { type: Number, default: 0, min: 0, max: 5 },
   imageUrl: { type: String, default: 'none' },
   ownerId: { type: String, required: true },
-  addresses: [{
+  address: {
     street: { type: String, required: true },
     city: { type: String, required: true },
     state: { type: String, required: true },
     zipCode: { type: String, required: true },
-    }
-  ],
+  },
 }, {timestamps: true}); 
 
 const RestaurantModel = mongoose.model('RestaurantsTest', RestaurantSchema);
