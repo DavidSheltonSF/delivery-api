@@ -10,13 +10,12 @@ const UserSchema = new mongoose.Schema({
     required: true,
     enum: ['admin', 'costumer', 'restaurant owner', 'driver']
   },
-  addresses: [{
+  address: {
     street: { type: String, required: true },
     city: { type: String, required: true },
     state: { type: String, required: true },
     zipCode: { type: String, required: true },
-    }
-  ],
+  },
   bankInfo: {
     bankName: { type: String, required: true },
     accountNumber: { type: String, required: true },
