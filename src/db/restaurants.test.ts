@@ -40,17 +40,17 @@ const restaurants = [
 
 describe('mongoTest', () => {
 
-  beforeAll(() => {
-    mongoConnection();
-  });
-
-  afterEach(async () => {
-    await deleteAllRestaurants();
-  })
-
-  afterAll(async () => {
-    mongoose.disconnect();
-  });
+ beforeAll(async () => {
+     mongoConnection();
+     await deleteAllRestaurants();
+   });
+   afterEach(async () => {
+     await deleteAllRestaurants();
+   })
+   afterAll(async () => {
+     await deleteAllRestaurants();
+     mongoose.disconnect();
+   });
   
 
  test('Create new restaurant', async () => {
