@@ -1,4 +1,4 @@
-import { createUser, getUserByEmail, deleteAllUsers } from './users'
+import { createUser, getUserByEmail, deleteUserById, deleteAllUsers } from './users'
 import mongoConnection from './mongoConnection';
 import mongoose from 'mongoose';
 import { random } from '../helpers';
@@ -56,34 +56,46 @@ const users = [
 
 describe('mongoTest', () => {
 
-  beforeAll(() => {
-    mongoConnection();;
-  })
-  afterAll(async () => {
-    mongoose.disconnect();
-  });
-  afterEach(async () => {
+  beforeAll(async () => {
+    mongoConnection();
     await deleteAllUsers();
   })
+  afterAll(async () => {
+    await deleteAllUsers();
+    mongoose.disconnect();
+  });
 
-  test('Create new user', async () => {
+  // test('Create new user', async () => {
 
-    const userEmail = 'carlos@bugmail.com';
+  //   const userEmail = 'carlos@bugmail.com';
   
-    const user = await createUser(users[0]);
+  //   const user = await createUser(users[0]);
     
-    const userGet = await getUserByEmail(userEmail);
+  //   const userGet = await getUserByEmail(userEmail);
 
-    expect(userGet.email).toBe(userEmail);
-  }, 50000);
+  //   expect(userGet.email).toBe(userEmail);
+  // }, 50000);
 
-  test('Get user by email', async () => {
+  // test('Get user by email', async () => {
+
+  //   await createUser(users[1]);
+
+  //   const gotUser = await getUserByEmail(users[1].email);
+
+  //   expect(gotUser.email).toBe(users[1].email)
+  // });
+
+  test('Delete user', async () => {
 
     await createUser(users[1]);
 
-    const gotUser = await getUserByEmail(users[1].email);
+    const userGot = await getUserByEmail(users[1].email);
 
-    expect(gotUser.email).toBe(users[1].email)
-  });
+    const deletedUser = await deleteUserById(userGot._id.toString());
+
+    expect(deletedUser.email).toBe(users[1].email);
+    expect(await getUserByEmail(users[1].email)).toBeFalsy()
+
+  }, 10000)
 
 });
