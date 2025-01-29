@@ -4,7 +4,8 @@ import {
   deleteAllRestaurants, 
   getRestaurantByOwnerId,
   getRestaurants,
-  deleteRestaurantById
+  deleteRestaurantById,
+  updateRestaurantById
 } from './restaurants'
 import mongoConnection from './mongoConnection';
 import mongoose from 'mongoose';
@@ -113,4 +114,28 @@ describe('mongoTest', () => {
       expect(await getRestaurantByOwnerId(restaurants[1].ownerId)).toBeFalsy()
   
     }, 10000);
+
+  test('Update restaurants by Id', async () => {
+      await createRestaurant(restaurants[1]);
+  
+      const newData = {
+        name: 'Updated Comida Chinesa',
+        cnpj: '11111111111',
+        phone: '88888888888',
+        category: ['Japanese', 'lamem'],
+        ownerId: '8888211',
+        address: {
+            street: 'Rua Updated', 
+            city: 'São João de Merití', 
+            state: 'RJ', 
+            zipCode: '25552'
+        }
+      }
+  
+      const restaurantsGot = await getRestaurantByOwnerId(restaurants[1].ownerId);
+  
+      const updatedRestaurants = await updateRestaurantById(restaurantsGot._id.toString(), newData);
+  
+      expect(updatedRestaurants.ownerId).toBe(newData.ownerId);
+    });
 });
