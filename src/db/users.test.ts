@@ -70,30 +70,7 @@ describe('mongoTest', () => {
 
     const userEmail = 'carlos@bugmail.com';
   
-    const user = await createUser({
-      username: 'Carlos Miranda',
-      email: userEmail,
-      cpf: '11111111111',
-      phone: '88888888888',
-      role: 'costumer',
-      address: {
-          street: 'Rua Teste S', 
-          city: 'Belford Roxo', 
-          state: 'RJ', 
-          zipCode: '555858848548'
-      },
-      bankInfo: {
-        bankName: 'Itaú Unibanco', 
-        accountNumber: '14314', 
-        agencyNumber: '5445', 
-        accountType: 'typeTEst',
-        pixKey: 'test@bugmail.com'
-      },
-      authentication: {
-          password: 'carlos123',
-          salt: random()
-      },
-    })
+    const user = await createUser(users[0]);
     
     const userGet = await getUserByEmail(userEmail);
 
@@ -101,6 +78,8 @@ describe('mongoTest', () => {
   }, 50000);
 
   test('Get user by email', async () => {
+
+    await createUser(users[1]);
 
     const gotUser = await getUserByEmail(users[1].email);
 
