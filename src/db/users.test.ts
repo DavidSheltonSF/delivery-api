@@ -59,31 +59,34 @@ describe('mongoTest', () => {
   beforeAll(async () => {
     mongoConnection();
     await deleteAllUsers();
+  });
+  afterEach(async () => {
+    await deleteAllUsers();
   })
   afterAll(async () => {
     await deleteAllUsers();
     mongoose.disconnect();
   });
 
-  // test('Create new user', async () => {
+  test('Create new user', async () => {
 
-  //   const userEmail = 'carlos@bugmail.com';
+    const userEmail = 'carlos@bugmail.com';
   
-  //   const user = await createUser(users[0]);
+    const user = await createUser(users[0]);
     
-  //   const userGet = await getUserByEmail(userEmail);
+    const userGet = await getUserByEmail(userEmail);
 
-  //   expect(userGet.email).toBe(userEmail);
-  // }, 50000);
+    expect(userGet.email).toBe(userEmail);
+  }, 50000);
 
-  // test('Get user by email', async () => {
+  test('Get user by email', async () => {
 
-  //   await createUser(users[1]);
+    await createUser(users[1]);
 
-  //   const gotUser = await getUserByEmail(users[1].email);
+    const gotUser = await getUserByEmail(users[1].email);
 
-  //   expect(gotUser.email).toBe(users[1].email)
-  // });
+    expect(gotUser.email).toBe(users[1].email)
+  });
 
   test('Delete user', async () => {
 
@@ -130,7 +133,7 @@ describe('mongoTest', () => {
 
     const updatedUser = await updateUserById(userGot._id.toString(), newData);
 
-    expect(updatedUser.username).toBe(newData.username)
-  })
+    expect(updatedUser.username).toBe(newData.username);
+  });
 
 });
