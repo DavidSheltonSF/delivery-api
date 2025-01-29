@@ -1,4 +1,4 @@
-import { createUser, getUserByEmail, deleteUserById, deleteAllUsers } from './users'
+import { createUser, getUserByEmail, deleteUserById, deleteAllUsers, updateUserById } from './users'
 import mongoConnection from './mongoConnection';
 import mongoose from 'mongoose';
 import { random } from '../helpers';
@@ -96,6 +96,41 @@ describe('mongoTest', () => {
     expect(deletedUser.email).toBe(users[1].email);
     expect(await getUserByEmail(users[1].email)).toBeFalsy()
 
-  }, 10000)
+  }, 10000);
+
+  test('Update user by Id', async () => {
+    await createUser(users[1]);
+
+    const newData = {
+      username: 'Jeronimo Miranda',
+      email: 'jeronimo@bugmail.com',
+      cpf: '5757757',
+      phone: '75757575',
+      role: 'restaurant owner',
+      address: {
+          street: 'Rua Guará S', 
+          city: 'Belford Roxo', 
+          state: 'RJ', 
+          zipCode: '57575757'
+      },
+      bankInfo: {
+        bankName: 'Itaú Unibanco', 
+        accountNumber: '5757', 
+        agencyNumber: '227', 
+        accountType: 'typeTEst',
+        pixKey: 'jero@bugmail.com'
+      },
+      authentication: {
+          password: 'jeronimo123',
+          salt: random()
+      },
+    }
+
+    const userGot = await getUserByEmail(users[1].email);
+
+    const updatedUser = await updateUserById(userGot._id.toString(), newData);
+
+    expect(updatedUser.username).toBe(newData.username)
+  })
 
 });
