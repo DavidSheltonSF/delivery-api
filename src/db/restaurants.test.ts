@@ -3,7 +3,8 @@ import {
   getRestaurantById, 
   deleteAllRestaurants, 
   getRestaurantByOwnerId,
-  getRestaurants
+  getRestaurants,
+  deleteRestaurantById
 } from './restaurants'
 import mongoConnection from './mongoConnection';
 import mongoose from 'mongoose';
@@ -43,14 +44,14 @@ describe('mongoTest', () => {
  beforeAll(async () => {
      mongoConnection();
      await deleteAllRestaurants();
-   });
+   }, 20000);
    afterEach(async () => {
      await deleteAllRestaurants();
-   })
+   }, 20000)
    afterAll(async () => {
      await deleteAllRestaurants();
      mongoose.disconnect();
-   });
+   }, 20000);
   
 
  test('Create new restaurant', async () => {
@@ -99,4 +100,17 @@ describe('mongoTest', () => {
     expect(restaurants[1].cnpj).toBe(allRestaurantsGot[1].cnpj);
     expect(restaurants[1].ownerId).toBe(allRestaurantsGot[1].ownerId);
   });
+
+  test('Delete restaurants', async () => {
+  
+      await createRestaurant(restaurants[1]);
+  
+      const restaurantsGot = await getRestaurantByOwnerId(restaurants[1].ownerId);
+  
+      const deletedRestaurants = await deleteRestaurantById(restaurantsGot._id.toString());
+  
+      expect(deletedRestaurants.ownerId).toBe(restaurants[1].ownerId);
+      expect(await getRestaurantByOwnerId(restaurants[1].ownerId)).toBeFalsy()
+  
+    }, 10000);
 });
