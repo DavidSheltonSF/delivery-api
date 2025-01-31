@@ -116,7 +116,7 @@ describe('mongoTest', () => {
     }, 10000);
 
   test('Update restaurants by Id', async () => {
-      const restaurantCreated = await createRestaurant(restaurants[1]);
+      const createdRestaurant = await createRestaurant(restaurants[1]);
   
       const newData = {
         name: 'Updated Comida Chinesa',
@@ -133,11 +133,11 @@ describe('mongoTest', () => {
       }
   
   
-      await updateRestaurantById(restaurantCreated._id.toString(), newData);
+      await updateRestaurantById(createdRestaurant._id.toString(), newData);
 
-      const restaurantGot = await getRestaurantById(restaurantCreated._id.toString());
+      const updatedRestaurant = await getRestaurantById(createdRestaurant._id.toString());
       
-      expect(restaurantGot.name).toBe(newData.name);
-      expect(restaurantGot.ownerId).toBe(newData.ownerId);
+      expect(updatedRestaurant.name).toBe(newData.name);
+      expect(updatedRestaurant.ownerId).toBe(newData.ownerId);
     });
 });
