@@ -116,14 +116,14 @@ describe('mongoTest', () => {
     }, 10000);
 
   test('Update restaurants by Id', async () => {
-      await createRestaurant(restaurants[1]);
+      const restaurantCreated = await createRestaurant(restaurants[1]);
   
       const newData = {
         name: 'Updated Comida Chinesa',
         cnpj: '11111111111',
         phone: '88888888888',
         category: ['Japanese', 'lamem'],
-        ownerId: '8888211',
+        ownerId: 'updated888',
         address: {
             street: 'Rua Updated', 
             city: 'São João de Merití', 
@@ -132,10 +132,12 @@ describe('mongoTest', () => {
         }
       }
   
-      const restaurantsGot = await getRestaurantByOwnerId(restaurants[1].ownerId);
   
-      const updatedRestaurants = await updateRestaurantById(restaurantsGot._id.toString(), newData);
-  
-      expect(updatedRestaurants.ownerId).toBe(newData.ownerId);
+      await updateRestaurantById(restaurantCreated._id.toString(), newData);
+
+      const restaurantGot = await getRestaurantById(restaurantCreated._id.toString());
+      
+      expect(restaurantGot.name).toBe(newData.name);
+      expect(restaurantGot.ownerId).toBe(newData.ownerId);
     });
 });
