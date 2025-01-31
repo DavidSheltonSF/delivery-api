@@ -1,4 +1,4 @@
-import { createUser, getUserByEmail, deleteUserById, deleteAllUsers, updateUserById } from './users'
+import { createUser, getUserById, getUserByEmail, deleteUserById, deleteAllUsers, updateUserById } from './users'
 import mongoConnection from './mongoConnection';
 import mongoose from 'mongoose';
 import { random } from '../helpers';
@@ -102,38 +102,40 @@ describe('mongoTest', () => {
   }, 10000);
 
   test('Update user by Id', async () => {
-    await createUser(users[1]);
+    const userCreaded = await createUser(users[1]);
 
     const newData = {
-      username: 'Jeronimo Miranda',
-      email: 'jeronimo@bugmail.com',
-      cpf: '5757757',
-      phone: '75757575',
-      role: 'restaurant owner',
+      username: 'UpdatedName Miranda',
+      email: 'updated@bugmail.com',
+      cpf: '5757757-updated',
+      phone: '75757575-updated',
+      role: 'restaurant owner-updated',
       address: {
-          street: 'Rua Guará S', 
+          street: 'Rua Guará -updated', 
           city: 'Belford Roxo', 
           state: 'RJ', 
           zipCode: '57575757'
       },
       bankInfo: {
-        bankName: 'Itaú Unibanco', 
+        bankName: 'Itaú Unibanco-updated', 
         accountNumber: '5757', 
         agencyNumber: '227', 
         accountType: 'typeTEst',
-        pixKey: 'jero@bugmail.com'
+        pixKey: 'jero@bugmail.com-updated'
       },
       authentication: {
-          password: 'jeronimo123',
+          password: 'jeronimo123-updated',
           salt: random()
       },
     }
 
-    const userGot = await getUserByEmail(users[1].email);
+    await updateUserById(userCreaded._id.toString(), newData);
 
-    const updatedUser = await updateUserById(userGot._id.toString(), newData);
+    const updatedUser = await getUserById(userCreaded._id.toString());
 
     expect(updatedUser.username).toBe(newData.username);
+    expect(updatedUser.email).toBe(newData.email);
+    expect(updatedUser.cpf).toBe(newData.cpf);
   });
 
 });
