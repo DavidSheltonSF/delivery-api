@@ -43,7 +43,7 @@ const restaurants = [
 describe('mongoTest', () => {
 
  beforeAll(async () => {
-     mongoConnection();
+     await mongoConnection();
      await deleteAllRestaurants();
    }, 20000);
    afterEach(async () => {

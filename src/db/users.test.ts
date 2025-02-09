@@ -57,7 +57,7 @@ const users = [
 describe('mongoTest', () => {
 
   beforeAll(async () => {
-    mongoConnection();
+    await mongoConnection();
     await deleteAllUsers();
   });
   afterEach(async () => {

@@ -28,7 +28,7 @@ const products = [
 describe('mongoTest', () => {
 
  beforeAll(async () => {
-     mongoConnection();
+     await mongoConnection();
      await deleteAllProducts();
    }, 20000);
    afterEach(async () => {
