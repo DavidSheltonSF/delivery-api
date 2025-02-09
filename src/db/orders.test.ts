@@ -14,6 +14,7 @@ import { arraysOfObjAreEqual } from '../helpers';
 const orders = [
   {
     costumerId: '4545asfdsafsdsd',
+    restaurantId: 'fsd4f5s41fas',
     products: [
       {
         productName: 'pizza quatro queijos',
@@ -31,6 +32,7 @@ const orders = [
   },
   {
     costumerId: 'f4sd484848gdesggg',
+    restaurantId: '44d4ggggdgaa',
     products: [
       {
         productName: 'pizza quatro queijos',
@@ -52,7 +54,7 @@ const orders = [
 describe('mongoTest', () => {
 
  beforeAll(async () => {
-     mongoConnection();
+     await mongoConnection();
      await deleteAllOrders();
    }, 20000);
    afterEach(async () => {
@@ -115,6 +117,7 @@ describe('mongoTest', () => {
   
       const newData = {
         costumerId: 'f4sd484848gdesggg-updated',
+        restaurantId: 'fesdfsafgsfsa-updated',
         products: [
           {
             productName: 'pizza quatro queijos-updated',
